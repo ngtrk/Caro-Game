@@ -227,6 +227,7 @@ void Caro::check() {
     int y1 = cell_posY;
     int x = cell_posX;
     int x1 = cell_posX;
+
     while (y < N_CELL_W && k != 0 && cell[x * N_CELL_W + y][2] == k) {
         y++;
         point++;
@@ -255,8 +256,105 @@ void Caro::check() {
         return;
     }
 
+    point = 0;
+    right = left = false; 
+    y = y1 = cell_posY; 
+    x = x1 = cell_posX; 
 
 
+    while (x < N_CELL_H && k != 0 && cell[x * N_CELL_W + y][2] == k) {
+        x++;
+        point++;
+    }
+
+
+    if (x < N_CELL_H) {
+        if (cell[x * N_CELL_W + y][2] == 0) right = left = true;
+    }
+    else  right = true;
+
+
+    while (x1 >= 0 && k != 0 && cell[x1 * N_CELL_W + y][2] == k) {
+        x1--;
+        point++;
+    }
+
+    if (x1 >= 0) {
+        if (cell[x1 * N_CELL_W + y][2] == 0) right = left = true;
+    }
+    else left = true;
+
+    if (point - 1 >= 5 && left && right) {
+        game_over = true;
+        return;
+    }
+
+    point = 0;
+    right = left = false;
+    y = y1 = cell_posY;
+    x = x1 = cell_posX;
+
+    while (x < N_CELL_H && y < N_CELL_W && k != 0 && cell[x * N_CELL_W + y][2] == k) {
+        x++;
+        y++;
+        point++;
+    }
+
+    if (x < N_CELL_H && y < N_CELL_W) {
+        if (cell[x * N_CELL_W + y][2] == 0) right = left = true;
+    }
+    else  right = true;
+
+
+    while (x1 >= 0 && y1 >= 0 && k != 0 && cell[x1 * N_CELL_W + y1][2] == k) {
+        x1--;
+        y1--;
+        point++;
+    }
+
+    if (x1 >= 0 && y1 >= 0) {
+        if (cell[x1 * N_CELL_W + y1][2] == 0) right = left = true;
+    }
+    else left = true;
+
+
+    if (point - 1 >= 5 && left && right) {
+        game_over = true;
+        return;
+    }
+
+    point = 0;
+    right = left = false;
+    y = y1 = cell_posY;
+    x = x1 = cell_posX;
+
+    while (x >= 0 && y < N_CELL_W && k != 0 && cell[x * N_CELL_W + y][2] == k) {
+        x--;
+        y++;
+        point++;
+    }
+
+    if (x >= 0 && y < N_CELL_W) {
+        if (cell[x * N_CELL_W + y][2] == 0) right = left = true;
+    }
+    else  right = true;
+
+    while (x1 < N_CELL_H && y1 >= 0 && k != 0 && cell[x1 * N_CELL_W + y1][2] == k) {
+        x1++;
+        y1--;
+        point++;
+    }
+
+    if (x1 < N_CELL_H && y1 >= 0) {
+        if (cell[x1 * N_CELL_W + y1][2] == 0) right = left = true;
+    }
+    else left = true;
+
+
+    if (point - 1 >= 5 && left && right) {
+        game_over = true;
+        return;
+    }
 }
 
 void Caro::run() {
