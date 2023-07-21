@@ -1,9 +1,9 @@
 #include <iostream>
-
 #include <conio.h>
 #include <windows.h>
 #include <cstring> 
-
+#include <chrono>
+#include <thread>
 
 #define N_CELL_W 19
 #define N_CELL_H 16
@@ -27,7 +27,7 @@ void ShowConsoleCursor(bool showFlag) {
 }
 
 
-void ClearScreen() {
+void SetCursor() {
     COORD cursorPosition;
     cursorPosition.X = 0;
     cursorPosition.Y = 0;
@@ -35,8 +35,6 @@ void ClearScreen() {
 
     ShowConsoleCursor(false);
 }
-
-
 
 
 
@@ -73,6 +71,7 @@ public:
     void move();
     void run();
     void check();
+    void result();
 };
 
 
@@ -357,12 +356,37 @@ void Caro::check() {
     }
 }
 
+
+
+
+void Caro::result() {
+    char a = '\0';
+    if (cell[cell_posX * N_CELL_W + cell_posY][2] == 1) a = 'X';
+    else a = 'O';
+
+    set_cursor(50, 20);
+    std::cout << "*********************************" << std::endl;
+    set_cursor(50, 21);
+    std::cout << "*                               *" << std::endl;
+    set_cursor(50, 22);
+    std::cout << "*       " << a << " WON THE GAME!         *" << std::endl;
+    set_cursor(50, 23);
+    std::cout << "*                               *" << std::endl;
+    set_cursor(50, 24);
+    std::cout << "*********************************" << std::endl;
+}
+
+
+
 void Caro::run() {
     while (!game_over) {
-        ClearScreen();
+        SetCursor(); 
         board();
         draw();
-
     }
 
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    system("cls");
+    result();
 }
