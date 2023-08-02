@@ -1,7 +1,6 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
-#include <cstring> 
 #include <chrono>
 #include <thread>
 
@@ -89,16 +88,19 @@ void Caro::board() {
     int x = 0, y = -1;
     unsigned char b = 196;
     unsigned char a = 179;
+
+    HANDLE h;
+    h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 7); // 7 = white
+
     for (int j = 0; j < 16; j++) {
         x = 2;
         y += 1;
         set_cursor(x, y);
 
-        for (int i = 0; i < 116; i++)
-            std::cout << b;
-
+        for (int i = 0; i < 116; i++) std::cout << b;
+        
         std::cout << std::endl;
-
         x = 3; y += 1;
         set_cursor(x, y);
 
@@ -135,7 +137,7 @@ void Caro::board() {
 void Caro::draw() {
 
     move();
-    
+    HANDLE h, h1;
     for (int i = 0; i < N_CELL_H; i++) {
 
         for (int j = 0; j < N_CELL_W; j++) {
@@ -143,9 +145,13 @@ void Caro::draw() {
             set_cursor(cell[i * N_CELL_W + j][0], cell[i * N_CELL_W + j][1]);
 
             if (cell[i * N_CELL_W + j][2] == 1) {
+                h = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(h, FOREGROUND_RED);
                 std::cout << "X";
             }
             else if (cell[i * N_CELL_W + j][2] == 2) {
+                h1 = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(h1, FOREGROUND_GREEN);
                 std::cout << "O";
             }
         }
